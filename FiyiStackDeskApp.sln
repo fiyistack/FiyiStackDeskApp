@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiyiStackDeskApp", "FiyiStackDeskApp\FiyiStackDeskApp.csproj", "{84E41B1C-E76E-B22C-0D03-087E4E8F10EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84E41B1C-E76E-B22C-0D03-087E4E8F10EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84E41B1C-E76E-B22C-0D03-087E4E8F10EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84E41B1C-E76E-B22C-0D03-087E4E8F10EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84E41B1C-E76E-B22C-0D03-087E4E8F10EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B9AD835E-2BF3-49F1-90D8-38FBBE246490}
+	EndGlobalSection
+EndGlobal
