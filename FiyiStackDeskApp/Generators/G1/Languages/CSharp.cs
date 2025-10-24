@@ -88,7 +88,7 @@ namespace FiyiStackDeskApp.Generators.G1.Languages
                     }
                     #endregion
 
-                    #region C# Interface for service
+                    #region C# Interface for importation and exportation services
                     if (g1ConfigurationComponent.G1Configuration.WantInterfaces)
                     {
                         string InterfacePath = $"{g1ConfigurationComponent.ChosenProject.Path}\\Areas\\{Table.Area}\\{Table.Name}Back\\Interfaces\\";
@@ -102,10 +102,31 @@ namespace FiyiStackDeskApp.Generators.G1.Languages
                             Directory.CreateDirectory(InterfacePath);
                         }
 
-                        Content = Modules.CSharp.CSharp.InterfaceService(g1ConfigurationComponent, Table);
+                        Content = Modules.CSharp.CSharp.InterfaceExportationService(g1ConfigurationComponent, Table);
 
                         SharedComponent.CreateFile(
-                        $"{InterfacePath}I{Table.Name}Service.cs",
+                        $"{InterfacePath}I{Table.Name}ExportationService.cs",
+                        Content,
+                        g1ConfigurationComponent.G1Configuration.DeleteFiles);
+                    }
+
+                    if (g1ConfigurationComponent.G1Configuration.WantInterfaces)
+                    {
+                        string InterfacePath = $"{g1ConfigurationComponent.ChosenProject.Path}\\Areas\\{Table.Area}\\{Table.Name}Back\\Interfaces\\";
+                        if (Directory.Exists(InterfacePath))
+                        {
+                            LogText += $"Carpeta {InterfacePath} existe {Environment.NewLine}";
+                        }
+                        else
+                        {
+                            LogText += $"Carpeta {InterfacePath} no existe. Creandola {Environment.NewLine}";
+                            Directory.CreateDirectory(InterfacePath);
+                        }
+
+                        Content = Modules.CSharp.CSharp.InterfaceImportationService(g1ConfigurationComponent, Table);
+
+                        SharedComponent.CreateFile(
+                        $"{InterfacePath}I{Table.Name}ImportationService.cs",
                         Content,
                         g1ConfigurationComponent.G1Configuration.DeleteFiles);
                     }
@@ -134,7 +155,7 @@ namespace FiyiStackDeskApp.Generators.G1.Languages
                     }
                     #endregion
 
-                    #region C# Service
+                    #region C# Exportation and Importation Services
                     if (g1ConfigurationComponent.G1Configuration.WantService)
                     {
                         string ServicePath = $"{g1ConfigurationComponent.ChosenProject.Path}\\Areas\\{Table.Area}\\{Table.Name}Back\\Services\\";
@@ -148,10 +169,31 @@ namespace FiyiStackDeskApp.Generators.G1.Languages
                             Directory.CreateDirectory(ServicePath);
                         }
 
-                        Content = Modules.CSharp.CSharp.Service(g1ConfigurationComponent, Table);
+                        Content = Modules.CSharp.CSharp.ExportationService(g1ConfigurationComponent, Table);
 
                         SharedComponent.CreateFile(
-                        $"{ServicePath}{Table.Name}Service.cs",
+                        $"{ServicePath}{Table.Name}ExportationService.cs",
+                        Content,
+                        g1ConfigurationComponent.G1Configuration.DeleteFiles);
+                    }
+
+                    if (g1ConfigurationComponent.G1Configuration.WantService)
+                    {
+                        string ServicePath = $"{g1ConfigurationComponent.ChosenProject.Path}\\Areas\\{Table.Area}\\{Table.Name}Back\\Services\\";
+                        if (Directory.Exists(ServicePath))
+                        {
+                            LogText += $"Carpeta {ServicePath} existe {Environment.NewLine}";
+                        }
+                        else
+                        {
+                            LogText += $"Carpeta {ServicePath} no existe. Creandola {Environment.NewLine}";
+                            Directory.CreateDirectory(ServicePath);
+                        }
+
+                        Content = Modules.CSharp.CSharp.ImportationService(g1ConfigurationComponent, Table);
+
+                        SharedComponent.CreateFile(
+                        $"{ServicePath}{Table.Name}ImportationService.cs",
                         Content,
                         g1ConfigurationComponent.G1Configuration.DeleteFiles);
                     }

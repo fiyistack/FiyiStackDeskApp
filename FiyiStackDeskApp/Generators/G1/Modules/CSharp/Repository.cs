@@ -40,134 +40,6 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
             catch (Exception) {{ throw; }}
         }}
 
-        #region Sync Queries
-        public int Count()
-        {{
-            try
-            {{
-                return _dbContext.{Table.Name}.Count();
-            }}
-            catch (Exception) {{ throw; }}
-        }}
-
-        public {Table.Name}? GetOneBy{Table.Name}Id(int {Table.Name.ToLower()}Id)
-        {{
-            try
-            {{
-                {Table.Name}? {Table.Name} = _dbContext.{Table.Name}
-                                .FirstOrDefault(x => x.{Table.Name}Id == {Table.Name.ToLower()}Id);
-
-                return {Table.Name};
-            }}
-            catch (Exception) {{ throw; }}
-        }}
-
-        public List<{Table.Name}?> GetAll()
-        {{
-            try
-            {{
-                return _dbContext.{Table.Name}.ToList();
-            }}
-            catch (Exception) {{ throw; }}
-        }}
-
-        public List<{Table.Name}> GetAllBy{Table.Name}IdForModal(string textToSearch)
-        {{
-            try
-            {{
-                var query = from {Table.Name.ToLower()} in _dbContext.{Table.Name}
-                            select new {{ {Table.Name} = {Table.Name.ToLower()} }};
-
-                List<{Table.Name}> lst{Table.Name} = query.Select(result => result.{Table.Name})
-                        .Where(x => x.{Table.Name}Id.ToString().Contains(textToSearch))
-                        .OrderByDescending(p => p.DateTimeLastModification)
-                        .ToList();
-
-                return lst{Table.Name};
-            }}
-            catch (Exception) {{ throw; }}
-        }}
-
-        public List<{Table.Name}?> GetAllBy{Table.Name}IdChecked(List<int> lst{Table.Name}IdChecked)
-        {{
-            try
-            {{
-                List<{Table.Name}?> lst{Table.Name} = [];
-
-                foreach (int {Table.Name}Id in lst{Table.Name}IdChecked)
-                {{
-                    {Table.Name} {Table.Name.ToLower()} = _dbContext.{Table.Name}.Where(x => x.{Table.Name}Id == {Table.Name}Id).FirstOrDefault();
-
-                    if ({Table.Name.ToLower()} != null)
-                    {{
-                        lst{Table.Name}.Add({Table.Name.ToLower()});
-                    }}
-                }}
-
-                return lst{Table.Name};
-            }}
-            catch (Exception) {{ throw; }}
-        }}
-
-        public paginated{Table.Name}DTO GetAllBy{Table.Name}IdPaginated(string textToSearch,
-            bool strictSearch,
-            int pageIndex,
-            int pageSize)
-        {{
-            try
-            {{
-                //textToSearch: ""novillo matias  com"" -> words: {{novillo,matias,com}}
-                string[] words = Regex
-                    .Replace(textToSearch
-                    .Trim(), @""\s+"", "" "")
-                    .Split("" "");
-
-                int Total{Table.Name} = _dbContext.{Table.Name}.Count();
-
-                List<{Table.Name}> lst{Table.Name} = _dbContext.{Table.Name}
-                        .AsQueryable()
-                        .Where(x => strictSearch ?
-                            words.All(word => x.{Table.Name}Id.ToString().Contains(word)) :
-                            words.Any(word => x.{Table.Name}Id.ToString().Contains(word)))
-                        .OrderByDescending(x => x.DateTimeLastModification)
-                        .Skip((pageIndex - 1) * pageSize)
-                        .Take(pageSize)
-                        .ToList();
-
-                List<User?> lstUserCreation = [];
-                List<User?> lstUserLastModification = [];
-
-                foreach ({Table.Name} {Table.Name.ToLower()} in lst{Table.Name})
-                {{
-                    User UserCreation = _dbContext.User
-                        .AsQueryable()
-                        .Where(x => x.UserCreationId == {Table.Name.ToLower()}.UserCreationId)
-                        .FirstOrDefault() ?? new();
-
-                    lstUserCreation.Add(UserCreation);
-
-                    User UserLastModification = _dbContext.User
-                       .AsQueryable()
-                       .Where(x => x.UserLastModificationId == {Table.Name.ToLower()}.UserLastModificationId)
-                       .FirstOrDefault() ?? new();
-
-                    lstUserLastModification.Add(UserLastModification);
-                }}
-
-                return new paginated{Table.Name}DTO
-                {{
-                    lst{Table.Name} = lst{Table.Name},
-                    lstUserCreation = lstUserCreation,
-                    lstUserLastModification = lstUserLastModification,
-                    TotalItems = Total{Table.Name},
-                    PageIndex = pageIndex,
-                    PageSize = pageSize
-                }};
-            }}
-            catch (Exception) {{ throw; }}
-        }}
-        #endregion
-
         #region Async Queries        
         public async Task<int> CountAsync()
         {{
@@ -196,46 +68,69 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
             }}
             catch (Exception) {{ throw; }}
         }}
-        #endregion
 
-        #region Sync Non-Queries
-        public bool Add({Table.Name} {Table.Name.ToLower()})
+        public async Task<List<{Table.Name}>> GetAllBy{Table.Name}IdCheckedAsync(List<int> lstINTID)
         {{
             try
             {{
-                EntityEntry<{Table.Name}> {Table.Name}ToAdd = _dbContext.{Table.Name}.Add({Table.Name.ToLower()});
-
-                bool result = _dbContext.SaveChanges() > 0;
-
-                return result;
+                return await _dbContext.{Table.Name}
+                                       .Where(x => lstINTID.Contains(x.{Table.Name}Id))
+                                       .ToListAsync();
             }}
             catch (Exception) {{ throw; }}
         }}
 
-        public bool Update({Table.Name} {Table.Name.ToLower()})
+        public async Task<paginated{Table.Name}DTO> GetAllBy{Table.Name}IdPaginatedAsync(string textToSearch,
+            bool strictSearch,
+            int pageIndex,
+            int pageSize)
         {{
             try
             {{
-                _dbContext.{Table.Name}.Update({Table.Name.ToLower()});
+                string[] words = Regex
+                    .Replace(textToSearch
+                    .Trim(), @""\s+"", "" "")
+                    .Split("" "");
 
-                bool result = _dbContext.SaveChanges() > 0;
+                int Total{Table.Name} = await _dbContext.{Table.Name}.CountAsync();
 
-                return result;
-            }}
-            catch (Exception) {{ throw; }}
-        }}
+                List<{Table.Name}> lst{Table.Name} = await _dbContext.{Table.Name}
+                    .AsQueryable()
+                    .Where(x => strictSearch ?
+                        words.All(word => x.{Table.Name}Id.ToString().Contains(word)) :
+                        words.Any(word => x.{Table.Name}Id.ToString().Contains(word)))
+                    .OrderByDescending(x => x.DateTimeLastModification)
+                    .Skip((pageIndex - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
 
-        public bool DeleteOneBy{Table.Name}Id(int {Table.Name.ToLower()}Id)
-        {{
-            try
-            {{
-                AsQueryable()
-                        .Where(x => x.{Table.Name}Id == {Table.Name.ToLower()}Id)
-                        .ExecuteDelete();
 
-                bool result = _dbContext.SaveChanges() > 0;
 
-                return result;
+                List<int> lstINTUserCreationId = lst{Table.Name}
+                    .Select(x => x.UserCreationId)
+                    .ToList();
+
+                List<int> lstINTUserLastModificationId = lst{Table.Name}
+                    .Select(x => x.UserLastModificationId)
+                    .ToList();
+
+                List<User> lstUserCreation = await _dbContext.User
+                    .Where(u => lstINTUserCreationId.Contains(u.UserCreationId))
+                    .ToListAsync();
+
+                List<User> lstUserLastModification = await _dbContext.User
+                    .Where(u => lstINTUserLastModificationId.Contains(u.UserLastModificationId))
+                    .ToListAsync();
+
+                return new paginated{Table.Name}DTO
+                {{
+                    lst{Table.Name} = lst{Table.Name},
+                    lstUserCreation = lstUserCreation,
+                    lstUserLastModification = lstUserLastModification,
+                    TotalRegisters = Total{Table.Name},
+                    PageIndex = pageIndex,
+                    PageSize = pageSize
+                }};
             }}
             catch (Exception) {{ throw; }}
         }}
@@ -255,7 +150,20 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
             catch (Exception) {{ throw; }}
         }}
 
-        public async Task<bool> UpdateASync({Table.Name} {Table.Name.ToLower()})
+        public async Task<bool> AddRangeAsync(List<{Table.Name}> lst{Table.Name})
+        {{
+            try
+            {{
+                await _dbContext.{Table.Name}.AddRangeAsync(lst{Table.Name});
+
+                bool result = await _dbContext.SaveChangesAsync() > 0;
+
+                return result;
+            }}
+            catch (Exception) {{ throw; }}
+        }}
+
+        public async Task<bool> UpdateAsync({Table.Name} {Table.Name.ToLower()})
         {{
             try
             {{
@@ -272,13 +180,43 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
         {{
             try
             {{
-                await AsQueryable()
-                            .Where(x => x.{Table.Name}Id == {Table.Name.ToLower()}Id)
-                            .ExecuteDeleteAsync();
+                await _dbContext.{Table.Name}
+                    .Where(x => x.{Table.Name}Id == {Table.Name.ToLower()}Id)
+                    .ExecuteDeleteAsync();
 
-                bool result = await _dbContext.SaveChangesAsync() > 0;
+                bool Result = await _dbContext.SaveChangesAsync() > 0;
 
-                return result;
+                return Result;
+            }}
+            catch (Exception) {{ throw; }}
+        }}
+
+        public async Task<bool> DeleteAll{Table.Name}Async()
+        {{
+            try
+            {{
+                await _dbContext.{Table.Name}
+                    .ExecuteDeleteAsync();
+
+                return true;
+            }}
+            catch (Exception)
+            {{
+                throw;
+            }}
+        }}
+
+        public async Task<bool> DeleteManyBy{Table.Name}IdAsync(List<{Table.Name}> lst{Table.Name})
+        {{
+            try
+            {{
+                _dbContext.{Table.Name}.RemoveRange(lst{Table.Name});
+
+                int AffectedRows = await _dbContext.SaveChangesAsync();
+
+                bool Result = AffectedRows > 0;
+
+                return Result;
             }}
             catch (Exception) {{ throw; }}
         }}

@@ -1544,12 +1544,12 @@ $@"//{field.Name}
                             ForeignLists_DTO += $@"public List<{field.ForeignTableName}?> lst{field.ForeignTableName} {{ get; set; }}
         ";
 
-                            ForeignListsGet_BlazorNonQueryPage += $@"lst{field.ForeignTableName} = {field.ForeignTableName.ToLower()}Repository.GetAllBy{field.Name}ForModal("""");
+                            ForeignListsGet_BlazorNonQueryPage += $@"lst{field.ForeignTableName} = await {field.ForeignTableName.ToLower()}Repository.GetAllBy{field.Name}ForModalAsync("""");
                     ";
 
-                            EditPartFK_BlazorNonQueryPage += $@"{field.ForeignTableName} {field.ForeignTableName} = {field.ForeignTableName.ToLower()}Repository.GetOneBy{field.Name}({Table.Name}.{field.Name});
-                        {field.ForeignTableName}{field.ForeignColumnName} = {field.ForeignTableName}.{field.ForeignColumnName};
-                        ";
+                            EditPartFK_BlazorNonQueryPage += $@"{field.ForeignTableName} {field.ForeignTableName} = await {field.ForeignTableName.ToLower()}Repository.GetOneBy{field.Name}Async({Table.Name}.{field.Name});
+                    {field.ForeignTableName}{field.ForeignColumnName} = {field.ForeignTableName}.{field.ForeignColumnName};
+                    ";
 
                             ForeignListsDeclaration_BlazorNonQueryPage += $@"private List<{field.ForeignTableName}> lst{field.ForeignTableName} {{ get; set; }} = [];
     private string {field.ForeignTableName}{field.ForeignColumnName} {{ get; set; }} = """";
@@ -1571,7 +1571,7 @@ $@"        [Library.ModelAttributeValidator.Key(""{field.Name}"", ""{field.Name}
         {{
             string TextToSearch = args.Value.ToString();
 
-            lst{field.ForeignTableName} = {field.ForeignTableName.ToLower()}Repository.GetAllBy{field.Name}ForModal(TextToSearch);
+            lst{field.ForeignTableName} = await {field.ForeignTableName.ToLower()}Repository.GetAllBy{field.Name}ForModalAsync(TextToSearch);
         }}
         catch (Exception ex)
         {{

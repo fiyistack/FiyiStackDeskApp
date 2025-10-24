@@ -157,8 +157,8 @@ else
                 {{
                     //Edit {Table.Name}
 
-                    {Table.Name} = {Table.Name.ToLower()}Repository
-                                .GetOneBy{Table.Name}Id({Table.Name}Id);
+                    {Table.Name} = await {Table.Name.ToLower()}Repository
+                                .GetOneBy{Table.Name}IdAsync({Table.Name}Id);
 
                     {GeneratorConfigurationComponent.G1FieldChainer.EditPartFK_BlazorNonQueryPage}
                 }}  
@@ -199,8 +199,8 @@ else
                 {Table.Name}.DateTimeCreation = DateTime.Now;
                 {Table.Name}.DateTimeLastModification = DateTime.Now;
 
-                {Table.Name.ToLower()}Repository
-                    .Add({Table.Name});
+                await {Table.Name.ToLower()}Repository
+                    .AddAsync({Table.Name});
   
             }}
             else
@@ -209,8 +209,8 @@ else
                 {Table.Name}.DateTimeLastModification = DateTime.Now;
                 {Table.Name}.UserLastModificationId = User.UserId;
 
-                {Table.Name.ToLower()}Repository
-                    .Update({Table.Name});
+                await {Table.Name.ToLower()}Repository
+                    .UpdateAsync({Table.Name});
             }}
             
             NavigationManager.NavigateTo(""{Table.Area}/{Table.Name}QueryPage"");

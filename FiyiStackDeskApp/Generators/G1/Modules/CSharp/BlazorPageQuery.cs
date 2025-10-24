@@ -864,7 +864,7 @@
         {{
             if (Selected{Table.Name}IdToDelete.HasValue)
             {{
-                {Table.Name.ToLower()}Repository.DeleteOneBy{Table.Name}Id(Selected{Table.Name}IdToDelete.Value);
+                await {Table.Name.ToLower()}Repository.DeleteOneBy{Table.Name}IdAsync(Selected{Table.Name}IdToDelete.Value);
 
                 paginated{Table.Name}DTO = await {Table.Name.ToLower()}Repository
                     .GetAllBy{Table.Name}IdPaginatedAsync(
@@ -1111,10 +1111,7 @@
             List<{Table.Name}> lst{Table.Name} = {Table.Name.ToLower()}ImportationService.ImportExcel(PathWithFile, User.UserId);
 
             //Save in DB
-            foreach ({Table.Name} {Table.Name} in lst{Table.Name})
-            {{
-                {Table.Name.ToLower()}Repository.Add({Table.Name});
-            }}
+            await {Table.Name.ToLower()}Repository.AddRangeAsync(lst{Table.Name});
 
             //Update page with new records
             paginated{Table.Name}DTO = await {Table.Name.ToLower()}Repository
@@ -1235,7 +1232,7 @@
             }}
             else
             {{
-                lst{Table.Name} = {Table.Name.ToLower()}Repository.GetAll();
+                lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllAsync();
             }}
 
             //Prepare path to download
@@ -1298,7 +1295,7 @@
             }}
             else
             {{
-                lst{Table.Name} = {Table.Name.ToLower()}Repository.GetAll();
+                lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllAsync();
             }}
 
             //Prepare path to download

@@ -19,45 +19,33 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
     {{
         IQueryable<{Table.Name}> AsQueryable();
 
-        #region Sync Queries
-        int Count();
-
-        {Table.Name}? GetOneBy{Table.Name}Id(int {Table.Name.ToLower()}Id);
-
-        List<{Table.Name}?> GetAll();
-
-        List<{Table.Name}?> GetAllBy{Table.Name}IdChecked(List<int> lst{Table.Name}IdChecked);
-
-        List<{Table.Name}> GetAllBy{Table.Name}IdForModal(string textToSearch);
-
-        paginated{Table.Name}DTO GetAllBy{Table.Name}IdPaginated(string textToSearch,
-            bool strictSearch,
-            int pageIndex,
-            int pageSize);
-        #endregion
-
         #region Async Queries
         Task<int> CountAsync();
 
         Task<{Table.Name}?> GetOneBy{Table.Name}IdAsync(int {Table.Name.ToLower()}Id);
 
         Task<List<{Table.Name}>> GetAllAsync();
-        #endregion
 
-        #region Sync Non-Queries
-        bool Add({Table.Name} {Table.Name.ToLower()});
+        Task<List<{Table.Name}>> GetAllBy{Table.Name}IdCheckedAsync(List<int> lstINTID);
 
-        bool Update({Table.Name} {Table.Name.ToLower()});
-
-        bool DeleteOneBy{Table.Name}Id(int {Table.Name.ToLower()});
+        Task<paginated{Table.Name}DTO> GetAllBy{Table.Name}IdPaginatedAsync(string textToSearch,
+            bool strictSearch,
+            int pageIndex,
+            int pageSize);
         #endregion
 
         #region Async Non-Queries
         Task<bool> AddAsync({Table.Name} {Table.Name.ToLower()});
 
-        Task<bool> UpdateASync({Table.Name} {Table.Name.ToLower()});
+        Task<bool> AddRangeAsync(List<{Table.Name}> lst{Table.Name});
+
+        Task<bool> UpdateAsync({Table.Name} {Table.Name.ToLower()});
 
         Task<bool> DeleteOneBy{Table.Name}IdAsync(int {Table.Name.ToLower()}Id);
+
+        Task<bool> DeleteAll{Table.Name}Async();
+
+        Task<bool> DeleteManyBy{Table.Name}IdAsync(List<{Table.Name}> lst{Table.Name});
         #endregion
 
         #region Methods for DataTable
