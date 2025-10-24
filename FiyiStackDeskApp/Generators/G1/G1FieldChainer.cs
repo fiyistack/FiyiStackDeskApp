@@ -29,8 +29,6 @@ namespace FiyiStackDeskApp.Generators.G1
 
         public string PropertiesInHTML_BlazorNonQueryPage { get; set; } = "";
 
-        public string ProgressBarForFile_BlazorNonQueryPage { get; set; } = "";
-
         public string UploadFileMethod_BlazorNonQueryPage { get; set; } = "";
 
         public string Properties_ForImport1 { get; set; } = "";
@@ -65,7 +63,7 @@ namespace FiyiStackDeskApp.Generators.G1
 
             foreach (Areas.FiyiStackDeskApp.FieldBack.Entities.Field field in lstField)
             {
-                ErrorMessage_InNonQueryBlazor += $@"public string ErrorMessage{field.Name} {{ get; set; }} = """";
+                ErrorMessage_InNonQueryBlazor += $@"private string ErrorMessage{field.Name} {{ get; set; }} = """";
     ";
 
                 PropertiesForEntity += field.HistoryUser == "" ? "" : $@"        ///<summary>
@@ -154,7 +152,7 @@ $@"        public int {field.Name} {{ get; set; }}
         }}
 
         
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -318,7 +316,7 @@ $@"        public bool {field.Name} {{ get; set; }}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -401,7 +399,7 @@ $@"//{field.Name}
         }}
 
         
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -510,7 +508,7 @@ $@"        [Library.ModelAttributeValidator.DateTime(""{field.Name}"", ""{field.
         }}
 
         
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -578,7 +576,7 @@ $@"        public DateTime {field.Name} {{ get; set; }}
         }}
 
         //Re-render the page to show ScannedText
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -656,7 +654,7 @@ $@"//{field.Name}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -739,7 +737,7 @@ $@"//{field.Name}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -814,7 +812,7 @@ $@"//{field.Name}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -940,7 +938,7 @@ $@"//{field.Name}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -1014,7 +1012,7 @@ $@"//{field.Name}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -1099,7 +1097,7 @@ $@"//{field.Name}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -1186,7 +1184,7 @@ $@"//{field.Name}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -1271,7 +1269,7 @@ $@"//{field.Name}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -1333,39 +1331,14 @@ $@"//{field.Name}
                                class=""form-control pt-0""
                                
                                OnChange=""@Upload{field.Name}"" />
-                        @{{
-                            var ProgressCssFor{field.Name} = ""progress"" + (DisplayProgressFor{field.Name} ? """" : ""d-none"");
-                            var ProgressWidthStyleFor{field.Name} = ProgressPercentFor{field.Name} + ""%"";
-                        }}
-                        <!--Progress bar-->
-                        <div class=""@ProgressCssFor{field.Name}"">
-                            <div class=""progress-bar progress-bar-striped progress-bar-animated @ProgressBarColourFor{field.Name}""
-                                 role=""progressbar"" style=""width:@ProgressWidthStyleFor{field.Name}""
-                                 area-valuenow=""@ProgressPercentFor{field.Name}"" 
-                                 aria-valuemin=""0""
-                                 aria-valuemax=""100"">
-                            </div>
-                        </div>
                     </div>
                     ";
-
-                        ProgressBarForFile_BlazorNonQueryPage += $@"//Progress bar for {field.Name}
-    public bool DisplayProgressFor{field.Name} {{ get; set; }} = false;
-    public int ProgressPercentFor{field.Name} {{ get; set; }} = 0;
-    public string ProgressTextFor{field.Name} {{ get; set; }} = """";
-    public string ProgressBarColourFor{field.Name} {{ get; set; }} = ""bg-info"";
-    
-    ";
 
                         UploadFileMethod_BlazorNonQueryPage += $@"private async void Upload{field.Name}(InputFileChangeEventArgs e)
     {{
 
         try
         {{
-            DisplayProgressFor{field.Name} = true;
-            ProgressPercentFor{field.Name} = 80;
-            ProgressBarColourFor{field.Name} = ""bg-info"";
-
             string path = Path.Combine(
                 Environment.CurrentDirectory,
                 ""wwwroot"",
@@ -1378,7 +1351,7 @@ $@"//{field.Name}
                 System.IO.Directory.CreateDirectory(path);
             }}
 
-            long MaxFileSize = 1024L * 1024L; //3MB max.
+            long MaxFileSize = 1024L * 1024L * 3; //3MB max.
 
             await using FileStream FileStream = new(path + e.File.Name, FileMode.Create);
             await e.File.OpenReadStream(MaxFileSize).CopyToAsync(FileStream);
@@ -1397,24 +1370,17 @@ $@"//{field.Name}
             {Table.Name}!.{field.Name} = Result + e.File.Name;
 
             Check(""[{field.Name}]"");
-
-            ProgressPercentFor{field.Name} = 100;
-            ProgressBarColourFor{field.Name} = ""bg-success"";
-            DisplayProgressFor{field.Name} = false;
         }}
         catch (Exception ex)
         {{
-            Message = $@""<div class=""""alert alert-danger text-white font-weight-bold"""" role=""""alert"""">
-                            Hubo un error. Intente nuevamente. Mensaje del error: {{ex.Message}}
-                         </div>"";
+            base.CatchException(ex);
 
-            ProgressPercentFor{field.Name} = 100;
-            ProgressBarColourFor{field.Name} = ""bg-danger"";
+            await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Error"", ""Hubo un error. Intente nuevamente."", ""error"");
         }}
         finally
         {{
-            //Re-render the page to show ScannedText
-            await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+            //Re-render the page
+            await InvokeAsync(StateHasChanged);
         }}
     }}
 
@@ -1442,7 +1408,7 @@ $@"//{field.Name}
             </span>"";
         }}
 
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 
@@ -1585,8 +1551,8 @@ $@"//{field.Name}
                         {field.ForeignTableName}{field.ForeignColumnName} = {field.ForeignTableName}.{field.ForeignColumnName};
                         ";
 
-                            ForeignListsDeclaration_BlazorNonQueryPage += $@"public List<{field.ForeignTableName}> lst{field.ForeignTableName} {{ get; set; }} = [];
-    public string {field.ForeignTableName}{field.ForeignColumnName} {{ get; set; }} = """";
+                            ForeignListsDeclaration_BlazorNonQueryPage += $@"private List<{field.ForeignTableName}> lst{field.ForeignTableName} {{ get; set; }} = [];
+    private string {field.ForeignTableName}{field.ForeignColumnName} {{ get; set; }} = """";
     ";
 
                             Injections_BlazorNonQueryPage += $@"@using {Project.Name}.Areas.{Table.Area}.{field.ForeignTableName}Back.Entities;
@@ -1603,39 +1569,20 @@ $@"        [Library.ModelAttributeValidator.Key(""{field.Name}"", ""{field.Name}
     {{
         try
         {{
-            //Basic configuration
-            Message = """";
-
             string TextToSearch = args.Value.ToString();
 
             lst{field.ForeignTableName} = {field.ForeignTableName.ToLower()}Repository.GetAllBy{field.Name}ForModal(TextToSearch);
         }}
         catch (Exception ex)
         {{
-            Failure failure = new()
-                {{
-                    Active = true,
-                    DateTimeCreation = DateTime.Now,
-                    DateTimeLastModification = DateTime.Now,
-                    UserCreationId = User.UserId == 0 ? 1 : User.UserId,
-                    UserLastModificationId = User.UserId == 0 ? 1 : User.UserId,
-                    EmergencyLevel = 1,
-                    Comment = """",
-                    Message = ex.Message,
-                    Source = ex.Source,
-                    StackTrace = ex.StackTrace
-                }};
+            base.CatchException(ex);
 
-            failureRepository.Add(failure);
-
-            Message = $@""<div class=""""alert alert-danger text-white font-weight-bold"""" role=""""alert"""">
-                                Hubo un error. Intente nuevamente. Mensaje del error: {{ex.Message}}
-                            </div>"";
+            await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Error"", ""Hubo un error. Intente nuevamente."", ""error"");
         }}
         finally
         {{
             //Re-render the page
-            await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+            await InvokeAsync(StateHasChanged);
         }}
     }}
     ";
@@ -1663,7 +1610,7 @@ $@"        [Library.ModelAttributeValidator.Key(""{field.Name}"", ""{field.Name}
         }}
 
         //Re-render the page to show ScannedText
-        await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        await InvokeAsync(StateHasChanged);
     }}
     ";
 

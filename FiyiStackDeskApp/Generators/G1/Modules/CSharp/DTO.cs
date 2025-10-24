@@ -23,11 +23,11 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
         //FOREIGN LISTS (TABLES)
         {GeneratorConfigurationComponent.G1FieldChainer.ForeignLists_DTO}
 
-        public int TotalItems {{ get; set; }}
+        public int TotalRegisters {{ get; set; }}
         public int PageIndex {{ get; set; }}
         public int PageSize {{ get; set; }}
 
-        public int TotalPages => (int)Math.Ceiling(TotalItems / (double)PageSize);
+        public int TotalPages => (int)Math.Ceiling(TotalRegisters / (double)PageSize);
 
         public bool HasPreviousPage => PageIndex > 1;
 

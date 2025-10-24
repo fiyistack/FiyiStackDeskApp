@@ -23,7 +23,7 @@
 
 <PageTitle>Buscar {Table.Name} - {Table.Area}</PageTitle>
 
-<{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._SideNavForDashboard lstFoldersAndPages=""lstFolderAndPagesForCMSDTO""></{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._SideNavForDashboard>
+<{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._SideNavForDashboard lstFoldersAndPagesForSideNavDTO=""lstFoldersAndPagesForSideNavDTO""></{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._SideNavForDashboard>
 
 <div class=""main-content position-relative max-height-vh-100 h-100"">
     <{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._NavBarForDashboard Pagina=""{Table.Name}""></{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._NavBarForDashboard>
@@ -713,7 +713,7 @@
     //PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIESPROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES 
 
     #region Properties
-    private List<folderAndPagesForCMSDTO> lstFolderAndPagesForCMSDTO {{ get; set; }} = [];
+    private List<folderAndPagesForCMSDTO> lstFoldersAndPagesForSideNavDTO {{ get; set; }} = [];
 
     private int TotalRegisters {{ get; set; }} = 0;
 
@@ -759,7 +759,7 @@
 
                 await base.IsUserAvailableToUseThisPage(""/CMS/FiyiStackWeb/{Table.Name}QueryPage"");
 
-                lstFolderAndPagesForCMSDTO = rolemenuRepository
+                lstFoldersAndPagesForSideNavDTO = rolemenuRepository
                                 .GetAllPagesAndFoldersForCMSByRoleId(base.User.RoleId);
 
                 paginated{Table.Name}DTO = await {Table.Name.ToLower()}Repository

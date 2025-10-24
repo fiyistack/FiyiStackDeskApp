@@ -30,7 +30,7 @@ else
     <PageTitle>Editar {Table.Name.ToLower()} - {Table.Area}</PageTitle>
 }}
 
-<{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._SideNavForDashboard lstFoldersAndPages=""lstFoldersAndPages""></{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._SideNavForDashboard>
+<{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._SideNavForDashboard lstFoldersAndPagesForSideNavDTO=""lstFoldersAndPagesForSideNavDTO""></{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._SideNavForDashboard>
 
 <div class=""main-content position-relative max-height-vh-100 h-100"">
     <{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._NavBarForDashboard Pagina=""{Table.Name}""></{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._NavBarForDashboard>
@@ -41,25 +41,29 @@ else
         </div>
         <div class=""card card-body mx-3 mx-md-4 mt-n6"">
             <div class=""card-header mb-0 pb-0"">
-                <h3 class=""mb-3"">
-                    @if ({Table.Name}Id == 0)
-                    {{
-                        <span>Agregar {Table.Name.ToLower()}</span>
-                    }}
-                    else
-                    {{
-                        <span>Editar {Table.Name.ToLower()}</span>
-                    }}
-                </h3>
-                <NavLink class=""btn btn-outline-dark"" href=""{Table.Area}/{Table.Name}Page"">
-                    <span class=""fas fa-chevron-left""></span>
-                    &nbsp;Volver
-                </NavLink>
-                <br />
-                <div class=""alert alert-warning text-white font-weight-bold"" role=""alert"">
-                    Los campos marcados con * son obligatorios
+                <div class=""d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center"">
+                    <h3 class=""mb-3 mb-md-0"">
+                        @if ({Table.Name}Id == 0)
+                        {{
+                            <span>Agregar {Table.Name.ToLower()}</span>
+                        }}
+                        else
+                        {{
+                            <span>Editar {Table.Name.ToLower()}</span>
+                        }}
+                    </h3>
+                    <div class=""d-flex"">
+                        <NavLink class=""btn btn-outline-dark"" href=""CMS/FiyiStackWeb/{Table.Name}QueryPage"">
+                            <span class=""fas fa-chevron-left""></span>
+                            &nbsp;
+                            Volver
+                        </NavLink>
+                    </div>
                 </div>
-                <hr />
+                <div class=""alert alert-info text-white"" role=""alert"">
+                    Los campos marcados con <span class=""text-danger"">*</span> son obligatorios
+                </div>
+                <hr class=""mt-3"" />
             </div>
             <div class=""card-body px-0"">
                 <form method=""post"" @onsubmit=""Submit""
@@ -81,7 +85,7 @@ else
                                 <span>Editar</span>
                             }}
                         </button>
-                        <NavLink class=""btn btn-outline-dark mx-3"" href=""{Table.Area}/{Table.Name}Page"">
+                        <NavLink class=""btn btn-outline-dark mx-3"" href=""CMS/{Table.Area}/{Table.Name}QueryPage"">
                             <span class=""fas fa-chevron-left""></span>
                             &nbsp;Volver
                         </NavLink>
@@ -91,40 +95,34 @@ else
             </div>
         </div>
     </div>
-    <!--Modals for FK-->
+    <!-- MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS -->
+    <!-- MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS MODALS FOR FOREIGN KEYS -->
     {GeneratorConfigurationComponent.G1FieldChainer.ModalsInBlazorPageNonQuery}
-
-    <!-- Initialization of tooltip -->
-    <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle-tooltip=""tooltip""]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {{
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        }})
-    </script>
 
     <{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._FixedPluginForDashboard></{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._FixedPluginForDashboard>
     <{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._FooterForDashboard></{GeneratorConfigurationComponent.ChosenProject.Name}.Components.Shared.ComponentsForDashboard._FooterForDashboard>
 </div>
 
 @code {{
+
+    //PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIESPROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES
+    //PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIESPROPERTIES PROPERTIES PROPERTIES PROPERTIES PROPERTIES
+
     #region Properties
-    public List<folderForCMSDTO> lstFoldersAndPages = [];
+    private List<folderAndPagesForCMSDTO> lstFoldersAndPagesForSideNavDTO = [];
 
     [Parameter]
     public int {Table.Name}Id {{ get; set; }}
 
-    public string Message {{ get; set; }} = """";
+    private string Message {{ get; set; }} = """";
 
     [SupplyParameterFromForm]
-    public {Table.Name} {Table.Name} {{ get; set; }} = new();
+    private {Table.Name} {Table.Name} {{ get; set; }} = new();
 
-    public User User {{ get; set; }} = new();
+    private User User {{ get; set; }} = new();
 
     //Error messages for inputs
     {GeneratorConfigurationComponent.G1FieldChainer.ErrorMessage_InNonQueryBlazor}
-
-    //Progress bars for uploaders
-    {GeneratorConfigurationComponent.G1FieldChainer.ProgressBarForFile_BlazorNonQueryPage}
     
     //FOREIGN LISTS (TABLES)
     {GeneratorConfigurationComponent.G1FieldChainer.ForeignListsDeclaration_BlazorNonQueryPage}
@@ -140,21 +138,12 @@ else
         {{
             if (firstRender)
             {{
-                await base.SetStateContainerWithUserLoggedInUsingCookies();
+                await base.GetUserIdFromCookies();
 
-                List<Menu> lstMenuWithPermission = rolemenuRepository
-                                    .GetAllByRoleIdAndPathForPermission(base.StateContainer.User.RoleId, ""/{Table.Area}/{Table.Name}Page"");
+                await base.IsUserAvailableToUseThisPage(""/CMS/{Table.Area}/{Table.Name}QueryPage"");
 
-                if (lstMenuWithPermission.Count == 0)
-                {{
-                    //Redirect to...
-                    NavigationManager.NavigateTo(""403"");
-                }}
-
-                lstFoldersAndPages = rolemenuRepository
-                                .GetAllPagesAndFoldersForCMSByRoleId(base.StateContainer.User.RoleId);
-
-                User = base.StateContainer.User;
+                lstFoldersAndPagesForSideNavDTO = rolemenuRepository
+                    .GetAllPagesAndFoldersForCMSByRoleId(base.User.RoleId);
 
                 //FOREIGN LISTS (TABLES)
                 {GeneratorConfigurationComponent.G1FieldChainer.ForeignListsGet_BlazorNonQueryPage}
@@ -174,14 +163,20 @@ else
                     {GeneratorConfigurationComponent.G1FieldChainer.EditPartFK_BlazorNonQueryPage}
                 }}  
 
-                await InvokeAsync(StateHasChanged);
+
+                Check("""");
+                
             }}
         }}
         catch (Exception ex)
         {{
             base.CatchException(ex);
 
-            await IJSRuntime.InvokeVoidAsync(""toastHelper.show"", ""Error"", ""Hubo un error. Intente nuevamente."", ""error"");
+            await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Error"", ""Hubo un error. Intente nuevamente."", ""error"");
+        }}
+        finally
+        {{
+            await InvokeAsync(StateHasChanged);
         }}
     }}
 
@@ -189,6 +184,12 @@ else
     {{
         try
         {{
+            if(Check("""") != null)
+            {{
+                await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Atención"", ""No se puede guardar. Hay campos faltantes. Operación cancelada."", ""warning"");
+                return;
+            }}
+
             if ({Table.Name}Id == 0)
             {{
                 //Create new {Table.Name}
@@ -198,16 +199,9 @@ else
                 {Table.Name}.DateTimeCreation = DateTime.Now;
                 {Table.Name}.DateTimeLastModification = DateTime.Now;
 
-                if(Check("""") == null)
-                {{
-                    {Table.Name.ToLower()}Repository
-                        .Add({Table.Name});
-
-                    //Redirect to users page
-                    NavigationManager.NavigateTo(""{Table.Area}/{Table.Name}Page"");
-                }}
-
-
+                {Table.Name.ToLower()}Repository
+                    .Add({Table.Name});
+  
             }}
             else
             {{
@@ -215,32 +209,34 @@ else
                 {Table.Name}.DateTimeLastModification = DateTime.Now;
                 {Table.Name}.UserLastModificationId = User.UserId;
 
-                if(Check("""") == null)
-                {{
-                    {Table.Name.ToLower()}Repository
-                            .Update({Table.Name});
-
-                    //Redirect to users page
-                    NavigationManager.NavigateTo(""{Table.Area}/{Table.Name}Page"");
-                }}
+                {Table.Name.ToLower()}Repository
+                    .Update({Table.Name});
             }}
+            
+            NavigationManager.NavigateTo(""{Table.Area}/{Table.Name}QueryPage"");
         }}
         catch (Exception ex)
         {{
             base.CatchException(ex);
 
-            await IJSRuntime.InvokeVoidAsync(""toastHelper.show"", ""Error"", ""Hubo un error. Intente nuevamente."", ""error"");
+            await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Error"", ""Hubo un error. Intente nuevamente."", ""error"");
         }}
         finally
         {{
-            //Re-render the page to show ScannedText
-            await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+            //Re-render the page
+            await InvokeAsync(StateHasChanged);
         }}
     }}
 
+    //UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERSUPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS 
+    //UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERSUPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS UPLOADERS 
+
     #region Uploaders
     {GeneratorConfigurationComponent.G1FieldChainer.UploadFileMethod_BlazorNonQueryPage}
-    #endregion    
+    #endregion   
+
+    //SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLESSEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN 
+    //SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN TABLESSEARCHERS FOR FOREIGN TABLES SEARCHERS FOR FOREIGN 
 
     #region SEARCHERS FOR FOREIGN TABLES
     {GeneratorConfigurationComponent.G1FieldChainer.Searchers_BlazorNonQueryPage}
@@ -266,7 +262,7 @@ else
 
             if (!IsValid)
             {{
-                Message = $@""<div class=""""alert alert-danger text-white font-weight-bold"""" role=""""alert"""">
+                Message = $@""<div class=""""alert alert-warning text-white"""" role=""""alert"""">
                                 Para guardar correctamente debe completar los siguientes puntos: <br/> <ul>"";
 
                 foreach (var validationResult in lstValidationResult)
@@ -279,7 +275,7 @@ else
             }}
             else
             {{
-                Message = $@""<div class=""""alert alert-successs text-white font-weight-bold"""" role=""""alert"""">
+                Message = $@""<div class=""""alert alert-successs text-white"""" role=""""alert"""">
                                 Todos los datos ingresados son correctos
                             </div>"";
             }}
@@ -303,6 +299,9 @@ else
 
         }}
     }}
+
+    //HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE
+    //HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE HANDLERS OF CHANGE
 
     #region Handlers
     {GeneratorConfigurationComponent.G1FieldChainer.Handlers_InNonQueryBlazor}
