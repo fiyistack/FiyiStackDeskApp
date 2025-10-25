@@ -213,7 +213,7 @@ else
                     .UpdateAsync({Table.Name});
             }}
             
-            NavigationManager.NavigateTo(""{Table.Area}/{Table.Name}QueryPage"");
+            NavigationManager.NavigateTo(""CMS/{Table.Area}/{Table.Name}QueryPage"");
         }}
         catch (Exception ex)
         {{

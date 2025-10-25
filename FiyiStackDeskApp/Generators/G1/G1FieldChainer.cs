@@ -1592,7 +1592,7 @@ $@"        [Library.ModelAttributeValidator.Key(""{field.Name}"", ""{field.Name}
         {Table.Name}.{field.Name} = {field.Name.ToLower()};
         ValidationResult ValidationResult = Check(""[{field.Name}]"");
 
-        {field.ForeignTableName} {field.ForeignTableName} = {field.ForeignTableName.ToLower()}Repository.GetOneBy{field.Name}({Table.Name}.{field.Name});
+        {field.ForeignTableName} {field.ForeignTableName} = await {field.ForeignTableName.ToLower()}Repository.GetOneBy{field.Name}Async({Table.Name}.{field.Name});
         {field.ForeignTableName}{field.ForeignColumnName} = {field.ForeignTableName}.{field.ForeignColumnName};
 
         if (ValidationResult == null)

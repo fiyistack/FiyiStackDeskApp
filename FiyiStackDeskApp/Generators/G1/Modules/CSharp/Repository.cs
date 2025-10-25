@@ -80,6 +80,17 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
             catch (Exception) {{ throw; }}
         }}
 
+        public async Task<List<{Table.Name}>> GetAllBy{Table.Name}IdForModalAsync(string textToSearch)
+        {{
+            try
+            {{
+                return await _dbContext.{Table.Name}
+                                       .Where(x => x.{Table.Name}Id.ToString().Contains(textToSearch))
+                                       .ToListAsync();
+            }}
+            catch (Exception) {{ throw; }}
+        }}
+
         public async Task<paginated{Table.Name}DTO> GetAllBy{Table.Name}IdPaginatedAsync(string textToSearch,
             bool strictSearch,
             int pageIndex,

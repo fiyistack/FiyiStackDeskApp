@@ -28,6 +28,8 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
 
         Task<List<{Table.Name}>> GetAllBy{Table.Name}IdCheckedAsync(List<int> lstINTID);
 
+        Task<List<{Table.Name}>> GetAllBy{Table.Name}IdForModalAsync(string textToSearch);
+
         Task<paginated{Table.Name}DTO> GetAllBy{Table.Name}IdPaginatedAsync(string textToSearch,
             bool strictSearch,
             int pageIndex,
