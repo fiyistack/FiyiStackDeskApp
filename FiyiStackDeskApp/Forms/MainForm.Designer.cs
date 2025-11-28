@@ -1005,13 +1005,13 @@ namespace FiyiStackDeskApp.Forms
             txtIntMax.ForeColor = Color.WhiteSmoke;
             txtIntMax.Location = new Point(25, 133);
             txtIntMax.Margin = new Padding(4);
-            txtIntMax.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
-            txtIntMax.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            txtIntMax.Maximum = new decimal(new int[] { -1, int.MaxValue, 0, 0 });
+            txtIntMax.Minimum = new decimal(new int[] { -1, int.MaxValue, 0, int.MinValue });
             txtIntMax.Name = "txtIntMax";
             txtIntMax.Size = new Size(228, 29);
             txtIntMax.TabIndex = 99;
             txtIntMax.ThousandsSeparator = true;
-            txtIntMax.Value = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            txtIntMax.Value = new decimal(new int[] { -1, int.MaxValue, 0, 0 });
             // 
             // label2
             // 
@@ -1033,8 +1033,8 @@ namespace FiyiStackDeskApp.Forms
             txtIntMin.ForeColor = Color.WhiteSmoke;
             txtIntMin.Location = new Point(25, 38);
             txtIntMin.Margin = new Padding(4);
-            txtIntMin.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
-            txtIntMin.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            txtIntMin.Maximum = new decimal(new int[] { -1, int.MaxValue, 0, 0 });
+            txtIntMin.Minimum = new decimal(new int[] { -1, int.MaxValue, 0, int.MinValue });
             txtIntMin.Name = "txtIntMin";
             txtIntMin.Size = new Size(228, 29);
             txtIntMin.TabIndex = 96;

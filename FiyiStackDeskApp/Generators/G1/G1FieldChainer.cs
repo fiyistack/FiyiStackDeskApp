@@ -108,12 +108,12 @@ namespace FiyiStackDeskApp.Generators.G1
                 {
                     case 0:
                         throw new Exception("You must choose a Data Type");
-                    case 3: //Integer
+                    case 3: //Integer/Long
 
                         PropertiesForEntityConfiguration += 
 $@"//{field.Name}
                 entity.Property(e => e.{field.Name})
-                    .HasColumnType(""int"")
+                    .HasColumnType(""bigint"")
                     .IsRequired(true);
 
                 ";
@@ -121,7 +121,7 @@ $@"//{field.Name}
                         if (field.Name != "UserCreationId" && field.Name != "UserLastModificationId")
                         {
                             PropertiesForEntity +=
-$@"        public int {field.Name} {{ get; set; }}
+$@"        public long {field.Name} {{ get; set; }}
 ";
 
                             Handlers_InNonQueryBlazor += $@"private async Task Handle{field.Name}Change(ChangeEventArgs e)
@@ -197,16 +197,16 @@ $@"        public int {field.Name} {{ get; set; }}
                             if (field.Name == "UserCreationId")
                             {
                                 PropertiesForEntity +=
-$@"        [Library.ModelAttributeValidator.Int(""{field.Name}"", ""{field.Name}"", false, {field.MinValue}, {field.MaxValue})]
-        public int {field.Name} {{ get; set; }}
+$@"        [Library.ModelAttributeValidator.IntOrLong(""{field.Name}"", ""{field.Name}"", false, {field.MinValue}, {field.MaxValue})]
+        public long {field.Name} {{ get; set; }}
 ";
                             }
 
                             if (field.Name == "UserLastModificationId")
                             {
                                 PropertiesForEntity +=
-    $@"        [Library.ModelAttributeValidator.Int(""{field.Name}"", ""{field.Name}"", false, {field.MinValue}, {field.MaxValue})]
-        public int {field.Name} {{ get; set; }}
+    $@"        [Library.ModelAttributeValidator.IntOrLong(""{field.Name}"", ""{field.Name}"", false, {field.MinValue}, {field.MaxValue})]
+        public long {field.Name} {{ get; set; }}
 ";
                             }
                         }
@@ -461,7 +461,7 @@ $@"//{field.Name}
 
                         PropertiesForEntity +=
 $@"
-        public int {field.Name} {{ get; set; }}
+        public long {field.Name} {{ get; set; }}
 ";
 
                         PropertiesInHTML_TD_ForBlazorPageQuery += $@"<td>@paginated{Table.Name}DTO.lst{Table.Name}[i]?.{Table.Name}Id</td>
@@ -1467,7 +1467,7 @@ $@"//{field.Name}
                         PropertiesForEntityConfiguration +=
 $@"//{field.Name}
                 entity.Property(e => e.{field.Name})
-                    .HasColumnType(""int"")
+                    .HasColumnType(""bigint"")
                     .IsRequired(true);
 
                 ";
@@ -1562,7 +1562,7 @@ $@"//{field.Name}
 
                             PropertiesForEntity +=
 $@"        [Library.ModelAttributeValidator.Key(""{field.Name}"", ""{field.Name}"")]
-        public int {field.Name} {{ get; set; }}
+        public long {field.Name} {{ get; set; }}
 ";
 
                             Searchers_BlazorNonQueryPage += $@"private async Task SearchText{field.Name}(ChangeEventArgs args)
@@ -1587,7 +1587,7 @@ $@"        [Library.ModelAttributeValidator.Key(""{field.Name}"", ""{field.Name}
     }}
     ";
 
-                            Handlers_InNonQueryBlazor += $@"private async Task Handle{field.Name}Change(int {field.Name.ToLower()})
+                            Handlers_InNonQueryBlazor += $@"private async Task Handle{field.Name}Change(long {field.Name.ToLower()})
     {{
         {Table.Name}.{field.Name} = {field.Name.ToLower()};
         ValidationResult ValidationResult = Check(""[{field.Name}]"");

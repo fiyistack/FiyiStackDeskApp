@@ -53,7 +53,7 @@ else
                         }}
                     </h3>
                     <div class=""d-flex"">
-                        <NavLink class=""btn btn-outline-dark"" href=""CMS/FiyiStackWeb/{Table.Name}QueryPage"">
+                        <NavLink class=""btn btn-outline-dark"" href=""CMS/{Table.Area}/{Table.Name}QueryPage"">
                             <span class=""fas fa-chevron-left""></span>
                             &nbsp;
                             Volver

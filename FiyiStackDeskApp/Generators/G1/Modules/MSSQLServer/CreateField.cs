@@ -25,7 +25,7 @@ namespace FiyiStackDeskApp.Generators.G1.Modules.MSSQLServer
                         NonQuery += $@"USE [{DataBaseName}]
                     SET ANSI_NULLS ON
                     SET QUOTED_IDENTIFIER ON
-                    ALTER TABLE [{TableScheme}].[{TableArea}.{TableName}] ADD [{Field.Name}] INT {(Field.Nullable == true ? "NULL" : "NOT NULL")}";
+                    ALTER TABLE [{TableScheme}].[{TableArea}.{TableName}] ADD [{Field.Name}] BIGINT {(Field.Nullable == true ? "NULL" : "NOT NULL")}";
                         break;
                     case 4: //Boolean
                         NonQuery += $@"USE [{DataBaseName}]
@@ -63,7 +63,7 @@ namespace FiyiStackDeskApp.Generators.G1.Modules.MSSQLServer
                         NonQuery += $@"USE [{DataBaseName}]
                     SET ANSI_NULLS ON
                     SET QUOTED_IDENTIFIER ON
-                    ALTER TABLE [{TableScheme}].[{TableArea}.{TableName}] ADD [{Field.Name}] INT {(Field.Nullable == true ? "NULL" : "NOT NULL")}";
+                    ALTER TABLE [{TableScheme}].[{TableArea}.{TableName}] ADD [{Field.Name}] BIGINT {(Field.Nullable == true ? "NULL" : "NOT NULL")}";
                         break;
                     case 14: //Text: HexColour
                         NonQuery += $@"USE [{DataBaseName}]
@@ -123,7 +123,7 @@ namespace FiyiStackDeskApp.Generators.G1.Modules.MSSQLServer
                         NonQuery += $@"USE [{DataBaseName}]
                     SET ANSI_NULLS ON
                     SET QUOTED_IDENTIFIER ON
-                    ALTER TABLE [{TableScheme}].[{TableArea}.{TableName}] ADD [{Field.Name}] INT {(Field.Nullable == true ? "NULL" : "NOT NULL")}";
+                    ALTER TABLE [{TableScheme}].[{TableArea}.{TableName}] ADD [{Field.Name}] BIGINT {(Field.Nullable == true ? "NULL" : "NOT NULL")}";
                         break;
                     default:
                         throw new Exception($"{Field.Name} have a Data Type not recognized");

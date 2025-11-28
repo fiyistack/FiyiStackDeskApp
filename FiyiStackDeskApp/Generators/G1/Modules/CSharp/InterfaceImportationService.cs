@@ -15,7 +15,7 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
 {{
     public interface I{Table.Name}ImportationService
     {{
-        List<{Table.Name}> ImportExcel(string path, int userId);
+        List<{Table.Name}> ImportExcel(string path, long userId);
     }}
 }}";
 

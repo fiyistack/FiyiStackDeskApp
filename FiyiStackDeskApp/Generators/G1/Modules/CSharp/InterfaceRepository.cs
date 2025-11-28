@@ -22,11 +22,11 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
         #region Async Queries
         Task<int> CountAsync();
 
-        Task<{Table.Name}?> GetOneBy{Table.Name}IdAsync(int {Table.Name.ToLower()}Id);
+        Task<{Table.Name}?> GetOneBy{Table.Name}IdAsync(long {Table.Name.ToLower()}Id);
 
         Task<List<{Table.Name}>> GetAllAsync();
 
-        Task<List<{Table.Name}>> GetAllBy{Table.Name}IdCheckedAsync(List<int> lstINTID);
+        Task<List<{Table.Name}>> GetAllBy{Table.Name}IdCheckedAsync(List<long> lstLONG{Table.Name}IdChecked);
 
         Task<List<{Table.Name}>> GetAllBy{Table.Name}IdForModalAsync(string textToSearch);
 
@@ -43,7 +43,7 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
 
         Task<bool> UpdateAsync({Table.Name} {Table.Name.ToLower()});
 
-        Task<bool> DeleteOneBy{Table.Name}IdAsync(int {Table.Name.ToLower()}Id);
+        Task<bool> DeleteOneBy{Table.Name}IdAsync(long {Table.Name.ToLower()}Id);
 
         Task<bool> DeleteAll{Table.Name}Async();
 
@@ -51,7 +51,7 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
         #endregion
 
         #region Methods for DataTable
-        DataTable GetAllBy{Table.Name}IdInDataTable(List<int> lst{Table.Name}Checked);
+        DataTable GetAllBy{Table.Name}IdInDataTable(List<long> lstLONG{Table.Name}IdChecked);
 
         DataTable GetAllInDataTable();
         #endregion

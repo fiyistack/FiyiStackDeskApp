@@ -271,7 +271,7 @@ namespace FiyiStackDeskApp.Forms
                             TableId = TableAdded.TableId,
                             FieldId = 0,
                             ForeignTableName = string.Empty,
-                            MaxValue = $@"{int.MaxValue}",
+                            MaxValue = $@"{long.MaxValue}",
                             MinValue = "1"
                         };
 
@@ -293,7 +293,7 @@ namespace FiyiStackDeskApp.Forms
                             TableId = TableAdded.TableId,
                             FieldId = 0,
                             ForeignTableName = string.Empty,
-                            MaxValue = $@"{int.MaxValue}",
+                            MaxValue = $@"{long.MaxValue}",
                             MinValue = "1"
                         };
 

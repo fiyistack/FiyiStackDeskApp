@@ -8,7 +8,6 @@
             {
                 string Content =
                 $@"using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.CMS.UserBack.Entities;
 using {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area}.{Table.Name}Back.Entities;
@@ -50,7 +49,7 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
             catch (Exception) {{ throw; }}
         }}
 
-        public async Task<{Table.Name}?> GetOneBy{Table.Name}IdAsync(int {Table.Name.ToLower()}Id)
+        public async Task<{Table.Name}?> GetOneBy{Table.Name}IdAsync(long {Table.Name.ToLower()}Id)
         {{
             try
             {{
@@ -69,12 +68,12 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
             catch (Exception) {{ throw; }}
         }}
 
-        public async Task<List<{Table.Name}>> GetAllBy{Table.Name}IdCheckedAsync(List<int> lstINTID)
+        public async Task<List<{Table.Name}>> GetAllBy{Table.Name}IdCheckedAsync(List<long> lstLONG{Table.Name}IdChecked)
         {{
             try
             {{
                 return await _dbContext.{Table.Name}
-                                       .Where(x => lstINTID.Contains(x.{Table.Name}Id))
+                                       .Where(x => lstLONG{Table.Name}IdChecked.Contains(x.{Table.Name}Id))
                                        .ToListAsync();
             }}
             catch (Exception) {{ throw; }}
@@ -117,20 +116,20 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
 
 
 
-                List<int> lstINTUserCreationId = lst{Table.Name}
+                List<long> lstLONGUserCreationId = lst{Table.Name}
                     .Select(x => x.UserCreationId)
                     .ToList();
 
-                List<int> lstINTUserLastModificationId = lst{Table.Name}
+                List<long> lstLONGUserLastModificationId = lst{Table.Name}
                     .Select(x => x.UserLastModificationId)
                     .ToList();
 
                 List<User> lstUserCreation = await _dbContext.User
-                    .Where(u => lstINTUserCreationId.Contains(u.UserCreationId))
+                    .Where(x => lstLONGUserCreationId.Contains(x.UserCreationId))
                     .ToListAsync();
 
                 List<User> lstUserLastModification = await _dbContext.User
-                    .Where(u => lstINTUserLastModificationId.Contains(u.UserLastModificationId))
+                    .Where(x => lstLONGUserLastModificationId.Contains(x.UserLastModificationId))
                     .ToListAsync();
 
                 return new paginated{Table.Name}DTO
@@ -187,7 +186,7 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
             catch (Exception) {{ throw; }}
         }}
 
-        public async Task<bool> DeleteOneBy{Table.Name}IdAsync(int {Table.Name.ToLower()}Id)
+        public async Task<bool> DeleteOneBy{Table.Name}IdAsync(long {Table.Name.ToLower()}Id)
         {{
             try
             {{
@@ -234,7 +233,7 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
         #endregion
 
         #region Methods for DataTable
-        public DataTable GetAllBy{Table.Name}IdInDataTable(List<int> lst{Table.Name}Checked)
+        public DataTable GetAllBy{Table.Name}IdInDataTable(List<long> lst{Table.Name}Checked)
         {{
             try
             {{
@@ -242,7 +241,7 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
                 DataTable.Columns.Add(""{Table.Name}Id"", typeof(string));
                 {GeneratorConfigurationComponent.G1FieldChainer.PropertiesForRepository_DataTable1}
 
-                foreach (int {Table.Name}Id in lst{Table.Name}Checked)
+                foreach (long {Table.Name}Id in lst{Table.Name}Checked)
                 {{
                     {Table.Name} {Table.Name.ToLower()} = _dbContext.{Table.Name}.Where(x => x.{Table.Name}Id == {Table.Name}Id).FirstOrDefault();
 

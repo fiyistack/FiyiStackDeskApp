@@ -17,7 +17,7 @@ namespace {GeneratorConfigurationComponent.ChosenProject.Name}.Areas.{Table.Area
 {{
     public class {Table.Name}ImportationService : I{Table.Name}ImportationService
     {{
-        public List<{Table.Name}> ImportExcel(string path, int userId)
+        public List<{Table.Name}> ImportExcel(string path, long userId)
         {{
             List<{Table.Name}> lst{Table.Name} = [];
 

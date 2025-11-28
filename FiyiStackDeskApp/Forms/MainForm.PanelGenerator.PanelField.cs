@@ -340,8 +340,8 @@ namespace FiyiStackDeskApp.Forms
                         throw new Exception("Seleccione un tipo de dato");
                     case 3: //Integer
                         if (txtIntMin.Value > txtIntMax.Value) { throw new Exception("The minimum has to be at least equal to maximum"); }
-                        if (txtIntMin.Value > int.MaxValue || txtIntMin.Value < int.MinValue) { throw new Exception("The minimum entered is not supported"); }
-                        if (txtIntMax.Value > int.MaxValue || txtIntMax.Value < int.MinValue) { throw new Exception("The maximum entered is not supported"); }
+                        if (txtIntMin.Value > long.MaxValue || txtIntMin.Value < long.MinValue) { throw new Exception("The minimum entered is not supported"); }
+                        if (txtIntMax.Value > long.MaxValue || txtIntMax.Value < long.MinValue) { throw new Exception("The maximum entered is not supported"); }
 
                         Field.MinValue = txtIntMin.Value.ToString();
                         Field.MaxValue = txtIntMax.Value.ToString();
@@ -645,7 +645,7 @@ namespace FiyiStackDeskApp.Forms
                 txtForeignTableName.Text = "";
                 txtForeignColumnName.Text = "";
 
-                txtIntMax.Value = 2147483647;
+                txtIntMax.Value = long.MaxValue;
                 txtIntMin.Value = 0;
 
                 txtTimeSpanMin.Text = "00:00";

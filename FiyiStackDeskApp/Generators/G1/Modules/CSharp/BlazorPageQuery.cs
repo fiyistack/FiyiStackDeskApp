@@ -249,7 +249,7 @@
                                 {{
                                     @for (int i = 0; i < paginated{Table.Name}DTO.lst{Table.Name}.Count(); i++)
                                     {{
-                                        int {Table.Name.ToLower()}Id = @paginated{Table.Name}DTO.lst{Table.Name}[i]!.{Table.Name}Id;
+                                        long {Table.Name.ToLower()}Id = @paginated{Table.Name}DTO.lst{Table.Name}[i]!.{Table.Name}Id;
                                         string href = $@""CMS/{Table.Area}/{Table.Name}NonQueryPage/{{{Table.Name.ToLower()}Id}}"";
                                         <tr>
                                             <td>
@@ -285,7 +285,7 @@
                         <div class=""row"">
                             @for (int i = 0; i < paginated{Table.Name}DTO.lst{Table.Name}.Count(); i++)
                             {{
-                                int {Table.Name.ToLower()}Id = @paginated{Table.Name}DTO.lst{Table.Name}[i]!.{Table.Name}Id;
+                                long {Table.Name.ToLower()}Id = @paginated{Table.Name}DTO.lst{Table.Name}[i]!.{Table.Name}Id;
                                 string href = $@""CMS/{Table.Area}/{Table.Name}NonQueryPage/{{{Table.Name.ToLower()}Id}}"";
                                 <div class=""col-12 col-md-4 mb-4"">
                                     <div class=""card shadow-lg mt-2"">
@@ -297,7 +297,7 @@
                                                 <div class=""checkbox-container d-flex align-items-center justify-content-center"">
                                                     <input class=""larger-checkbox""
                                                     type=""checkbox""
-                                                    checked=""@lstINT{Table.Name}Checked.Contains({Table.Name.ToLower()}Id)""
+                                                    checked=""@lstLONG{Table.Name}Checked.Contains({Table.Name.ToLower()}Id)""
                                                     @onchange=""(() => CheckList({Table.Name.ToLower()}Id))"" />
                                                 </div>
                                                 <NavLink class=""btn btn-outline-info mx-3 btn-sm""
@@ -734,11 +734,11 @@
 
     paginated{Table.Name}DTO paginated{Table.Name}DTO = new();
 
-    private List<int> lstINT{Table.Name}Checked = [];
+    private List<long> lstLONG{Table.Name}Checked = [];
 
     private int RegistersPerPage {{ get; set; }} = 50;
 
-    private int? Selected{Table.Name}IdToDelete;
+    private long? Selected{Table.Name}IdToDelete;
 
     private bool ShowLoaderInMassiveActionModal {{ get; set; }} = false;
     private bool ShowLoaderInExportationModal {{ get; set; }} = false;
@@ -757,7 +757,7 @@
             {{
                 await base.GetUserIdFromCookies();
 
-                await base.IsUserAvailableToUseThisPage(""/CMS/FiyiStackWeb/{Table.Name}QueryPage"");
+                await base.IsUserAvailableToUseThisPage(""/CMS/{Table.Area}/{Table.Name}QueryPage"");
 
                 lstFoldersAndPagesForSideNavDTO = rolemenuRepository
                                 .GetAllPagesAndFoldersForCMSByRoleId(base.User.RoleId);
@@ -852,7 +852,7 @@
         await InvokeAsync(StateHasChanged);
     }}
 
-    private async Task ShowDeleteNotification(int {Table.Name.ToLower()}Id)
+    private async Task ShowDeleteNotification(long {Table.Name.ToLower()}Id)
     {{
         Selected{Table.Name}IdToDelete = {Table.Name.ToLower()}Id;
         await IJSRuntime.InvokeVoidAsync(""notificationHelper.showDeletionNotification"");
@@ -891,21 +891,21 @@
         }}
     }}
 
-    private async Task CheckList(int {Table.Name.ToLower()}Id)
+    private async Task CheckList(long {Table.Name.ToLower()}Id)
     {{
         try
         {{
-            int[] lst{Table.Name}Id = {{ {Table.Name.ToLower()}Id }};
+            long[] lst{Table.Name}Id = {{ {Table.Name.ToLower()}Id }};
 
             foreach (int {Table.Name}Id in lst{Table.Name}Id)
             {{
-                if (lstINT{Table.Name}Checked.Contains({Table.Name}Id))
+                if (lstLONG{Table.Name}Checked.Contains({Table.Name}Id))
                 {{
-                    lstINT{Table.Name}Checked.Remove({Table.Name}Id);
+                    lstLONG{Table.Name}Checked.Remove({Table.Name}Id);
                 }}
                 else
                 {{
-                    lstINT{Table.Name}Checked.Add({Table.Name}Id);
+                    lstLONG{Table.Name}Checked.Add({Table.Name}Id);
                 }}
             }}
         }}
@@ -1156,13 +1156,13 @@
             if (ExportationType == ""only-chosen"")
             {{
                 //Validation
-                if (lstINT{Table.Name}Checked.Count == 0)
+                if (lstLONG{Table.Name}Checked.Count == 0)
                 {{
                     await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Atención"", ""No hay registros para exportar. Proceso cancelado"", ""warning"");
                     return;
                 }}
 
-                dt{Table.Name} = {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdInDataTable(lstINT{Table.Name}Checked);
+                dt{Table.Name} = {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdInDataTable(lstLONG{Table.Name}Checked);
             }}
             else
             {{
@@ -1222,13 +1222,13 @@
             if (ExportationType == ""only-chosen"")
             {{
                 //Validation
-                if (lstINT{Table.Name}Checked.Count == 0)
+                if (lstLONG{Table.Name}Checked.Count == 0)
                 {{
                     await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Atención"", ""No hay registros para exportar. Proceso cancelado"", ""warning"");
                     return;
                 }}
 
-                lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdCheckedAsync(lstINT{Table.Name}Checked);
+                lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdCheckedAsync(lstLONG{Table.Name}Checked);
             }}
             else
             {{
@@ -1285,13 +1285,13 @@
             if (ExportationType == ""only-chosen"")
             {{
                 //Validation
-                if (lstINT{Table.Name}Checked.Count == 0)
+                if (lstLONG{Table.Name}Checked.Count == 0)
                 {{
                     await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Atención"", ""No hay registros para exportar. Proceso cancelado"", ""warning"");
                     return;
                 }}
 
-                lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdCheckedAsync(lstINT{Table.Name}Checked);
+                lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdCheckedAsync(lstLONG{Table.Name}Checked);
             }}
             else
             {{
@@ -1353,13 +1353,13 @@
             if (MassiveActionType == ""only-chosen"")
             {{
                 //Validation
-                if (lstINT{Table.Name}Checked.Count == 0)
+                if (lstLONG{Table.Name}Checked.Count == 0)
                 {{
                     await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Atención"", ""No hay registros para copiar. Proceso cancelado"", ""warning"");
                     return;
                 }}
 
-                lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdCheckedAsync(lstINT{Table.Name}Checked);
+                lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdCheckedAsync(lstLONG{Table.Name}Checked);
             }}
             else
             {{
@@ -1383,7 +1383,7 @@
 
             TotalRegisters = paginated{Table.Name}DTO.TotalRegisters;
 
-            lstINT{Table.Name}Checked.Clear();
+            lstLONG{Table.Name}Checked.Clear();
 
             await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithUnlimitedTime"", ""Éxito"", ""Registros copiados correctamente."", ""success"");
         }}
@@ -1412,13 +1412,13 @@
             if (MassiveActionType == ""only-chosen"")
             {{
                 //Validation
-                if (lstINT{Table.Name}Checked.Count == 0)
+                if (lstLONG{Table.Name}Checked.Count == 0)
                 {{
                     await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithLimitedTime"", ""Atención"", ""No hay registros para eliminar. Proceso cancelado"", ""warning"");
                     return;
                 }}
 
-                List<{Table.Name}?> lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdCheckedAsync(lstINT{Table.Name}Checked);
+                List<{Table.Name}?> lst{Table.Name} = await {Table.Name.ToLower()}Repository.GetAllBy{Table.Name}IdCheckedAsync(lstLONG{Table.Name}Checked);
 
                 await {Table.Name.ToLower()}Repository.DeleteManyBy{Table.Name}IdAsync(lst{Table.Name});
             }}
@@ -1436,7 +1436,7 @@
 
             TotalRegisters = paginated{Table.Name}DTO.TotalRegisters;
 
-            lstINT{Table.Name}Checked.Clear();
+            lstLONG{Table.Name}Checked.Clear();
 
             await IJSRuntime.InvokeVoidAsync(""toastHelper.showWithUnlimitedTime"", ""Éxito"", ""Registros eliminados correctamente"", ""success"");
         }}
